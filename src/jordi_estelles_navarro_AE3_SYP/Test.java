@@ -7,7 +7,7 @@ public class Test {
 
 	public static void main(String[] args) throws InterruptedException 
 	{
-		
+		/*
 		Ventilador ventilador = new Ventilador();
 		
 		Thread ventiladorEncender = new Thread( new Runnable () 
@@ -57,6 +57,7 @@ public class Test {
 		
 		System.err.println("llega hasta el final");
 		
+		*/
 		/*
 		
 		Mina mina = new Mina( 50 );

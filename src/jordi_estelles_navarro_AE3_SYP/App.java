@@ -46,7 +46,7 @@ public class App
 		
 		
 		
-		Mina mina = new Mina( 50 );
+		Mina mina = new Mina( 100 );
 		List<Minero> mineros = new ArrayList<Minero>();
 		List<Thread> hilos = new ArrayList<Thread>();
 		
@@ -83,10 +83,14 @@ public class App
 			System.out.println(">> " + minero.nombre + " | Bolsa de extraccion : " + minero.GetBolsaRecoleccion());
 		}
 		
-		ventilador.stop = true;
+		System.out.println("\nFin de la extraccion | Desconectando ventilacion ... \n");	
+		
+		ventilador.stopE = true;
 		ventiladorEncender.join();
+		
+		ventilador.stopA = true;
 		ventiladorApagar.join();
 		
-		System.out.println("Fin de la extraccion");	
+		System.err.println("> Ventilacion desconectada");	
 	}
 }

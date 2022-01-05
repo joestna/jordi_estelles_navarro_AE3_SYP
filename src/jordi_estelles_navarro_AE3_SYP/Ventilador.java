@@ -4,17 +4,18 @@ public class Ventilador
 {
 	int tiempoParada = 1000;
 	boolean encendido = false;
-	boolean stop = false;
+	boolean stopE = false;
+	boolean stopA = false;
 	
 	public void EncenderVentilador() throws InterruptedException
 	{
-		while(!stop)
+		synchronized(this)
 		{
-			synchronized(this)
+			while(!stopE)
 			{
-				while(!this.encendido) wait();
+				while(this.encendido) wait();
 				
-				this.encendido = !this.encendido;
+				this.encendido = true;
 				System.out.println(">>>  VENTILADOR ENCENDIDO");
 				Thread.sleep(tiempoParada);
 				
@@ -25,14 +26,14 @@ public class Ventilador
 	
 	public void ApagarVentilador() throws InterruptedException
 	{
-		while(!stop) 
+		synchronized(this)
 		{
-			synchronized(this)
+			while(!stopA) 
 			{
-				while(this.encendido) wait();
+				while(!this.encendido) wait();
 				
-				this.encendido = !this.encendido;
-				System.out.println(">>> VENTILADOR APAGADO");
+				this.encendido = false;
+				System.out.println(">>>  VENTILADOR APAGADO");
 				Thread.sleep(tiempoParada);
 				
 				notify();
