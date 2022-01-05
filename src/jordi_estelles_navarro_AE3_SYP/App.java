@@ -7,6 +7,8 @@ public class App
 {
 	public static void main(String[] args) throws InterruptedException
 	{	
+		// El ventilador se inicia al inciar la aplicacion
+		// Creo un ventilador y dos threads, uno para apagarlo y otro para encenderlo que funcioaran en paralelo pero sinergicamente
 		Ventilador ventilador = new Ventilador();
 		
 		Thread ventiladorEncender = new Thread( new Runnable () 
@@ -45,7 +47,7 @@ public class App
 		ventiladorApagar.start();
 		
 		
-		
+		// Creo una mina, le asigno los recursos y creo un grupo de mineros con un hilo cada uno que minaran recursos evitando la condicion de carrera
 		Mina mina = new Mina( 100 );
 		List<Minero> mineros = new ArrayList<Minero>();
 		List<Thread> hilos = new ArrayList<Thread>();
@@ -58,12 +60,10 @@ public class App
 			mineros.add(minero);
 		}
 		
-		Thread thread;
-		
+		Thread thread;		
 		for( Minero minero : mineros)
 		{
-			thread = new Thread(minero);
-			
+			thread = new Thread(minero);			
 			hilos.add(thread);
 		}
 		
@@ -85,6 +85,7 @@ public class App
 		
 		System.out.println("\nFin de la extraccion | Desconectando ventilacion ... \n");	
 		
+		// Me aseguro de que el ultimo hilo en terminar sera el que apaga el ventilador
 		ventilador.stopE = true;
 		ventiladorEncender.join();
 		
