@@ -44,7 +44,9 @@ public class App
 		ventiladorEncender.start();
 		ventiladorApagar.start();
 		
-		Mina mina = new Mina( 100 );
+		
+		
+		Mina mina = new Mina( 50 );
 		List<Minero> mineros = new ArrayList<Minero>();
 		List<Thread> hilos = new ArrayList<Thread>();
 		
@@ -56,37 +58,20 @@ public class App
 			mineros.add(minero);
 		}
 		
+		Thread thread;
+		
 		for( Minero minero : mineros)
 		{
-			Thread thread = new Thread(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					//while(mina.ComprobarStock())
-					//{						
-						try
-						{
-							minero.extraerRecurso();
-						}
-						catch(InterruptedException e)
-						{
-							e.printStackTrace();						
-						}
-					//}
-					
-				}
-			});
+			thread = new Thread(minero);
 			
 			hilos.add(thread);
 		}
 		
-		for( Thread hilo : hilos)
-		{
-			hilo.start();
-		}
-		
-		
+			for( Thread hilo : hilos)
+			{
+				hilo.start();		
+			}
+
 		while( mina.ComprobarStock() )
 		{
 			// Si no pongo este Thread sleep el while nunca termina -> preguntar
@@ -98,6 +83,10 @@ public class App
 			System.out.println(">> " + minero.nombre + " | Bolsa de extraccion : " + minero.GetBolsaRecoleccion());
 		}
 		
-		System.out.println("Fin de la extraccion");		
+		ventilador.stop = true;
+		ventiladorEncender.join();
+		ventiladorApagar.join();
+		
+		System.out.println("Fin de la extraccion");	
 	}
 }
