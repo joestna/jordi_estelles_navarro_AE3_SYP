@@ -3,10 +3,11 @@ package jordi_estelles_navarro_AE3_SYP;
 import java.util.ArrayList;
 import java.util.List;
 
-public class App 
-{
-	public static void main(String[] args) throws InterruptedException
-	{	
+public class Test {
+
+	public static void main(String[] args) throws InterruptedException 
+	{
+		/*
 		Ventilador ventilador = new Ventilador();
 		
 		Thread ventiladorEncender = new Thread( new Runnable () 
@@ -44,7 +45,21 @@ public class App
 		ventiladorEncender.start();
 		ventiladorApagar.start();
 		
-		Mina mina = new Mina( 100 );
+		while(ventiladorEncender.isAlive() || ventiladorApagar.isAlive())
+		{
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		System.err.println("llega hasta el final");
+		
+		*/
+		
+		Mina mina = new Mina( 50 );
 		List<Minero> mineros = new ArrayList<Minero>();
 		List<Thread> hilos = new ArrayList<Thread>();
 		
@@ -56,35 +71,23 @@ public class App
 			mineros.add(minero);
 		}
 		
+		Thread thread;
+		
 		for( Minero minero : mineros)
 		{
-			Thread thread = new Thread(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					//while(mina.ComprobarStock())
-					//{						
-						try
-						{
-							minero.extraerRecurso();
-						}
-						catch(InterruptedException e)
-						{
-							e.printStackTrace();						
-						}
-					//}
-					
-				}
-			});
+			thread = new Thread(minero);
 			
 			hilos.add(thread);
 		}
 		
-		for( Thread hilo : hilos)
-		{
-			hilo.start();
-		}
+			for( Thread hilo : hilos)
+			{
+					hilo.start();
+				
+			
+				
+			}
+
 		
 		
 		while( mina.ComprobarStock() )

@@ -9,14 +9,17 @@ public class Mina
 		this.stock = stock;
 	}
 	
-	public void extract() throws InterruptedException
+	synchronized public void extract() throws InterruptedException
 	{
-		synchronized(this)
-		{
+
+	
 			if(ComprobarStock()) this.stock--;
+		
 			
-			notify();
-		}
+			//System.err.println("> Stock en mina : " + this.stock);
+			
+			//notify();
+		
 	}
 	
 	public int GetStock()
