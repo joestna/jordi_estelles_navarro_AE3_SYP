@@ -5,7 +5,8 @@ public class Minero implements Runnable
 	public String nombre = "minero";
 	int bolsaRecoleccion = 0;
 	int tiempoExtraccion = 1000; 
-	public int numeroJornada = 0;
+	int numeroJornada = 0;
+	public int cantidadExtraccion = 1;
 	Mina mina; // Guardar una mina (paso por referencia para que todos los mineros actuen sobre la misma mina)
 	
 	public Minero( Mina mina )
@@ -21,50 +22,22 @@ public class Minero implements Runnable
 	
 	public void extraerRecurso() throws InterruptedException
 	{	
-		synchronized(Thread.class) {
-			while(mina.ComprobarStock()) 
-			{ 
 
-					numeroJornada++;
-					System.out.println( "> Extrayendo | " + this.nombre + " | Jornada : " + this.numeroJornada + " | Stock en mina : " + mina.GetStock() + " | " + mina.ComprobarStock());
-					int extraido = 0;
-					
-					try
-					{
-						Thread.sleep( tiempoExtraccion );
-					}
-					catch (InterruptedException e)
-					{
-						e.printStackTrace();
-					}
-					
-					
-					mina.extract();
-					bolsaRecoleccion++;
-					extraido++;
-					
-					/*
-					if(mina.ComprobarStock())
-					{
-						mina.extract();
-						bolsaRecoleccion++;
-						extraido++;
-						
-					}
-					*/
-							
-					System.err.println( "> Extraido  : " + extraido + " | "  + this.nombre + " | Jornada : " + this.numeroJornada + " | Stock en mina : " + mina.GetStock());
-				}
+				this.numeroJornada++;
+				this.bolsaRecoleccion = mina.extract(this.nombre,  this.cantidadExtraccion, this.numeroJornada, this.bolsaRecoleccion);
+				Thread.sleep(1000);
+
+
 			
 		}
 		
 			
-		}
+		
 			
 
 
 	public void run() {
-
+		while(mina.ComprobarStock()){
 			try {
 				extraerRecurso();
 				
@@ -73,6 +46,9 @@ public class Minero implements Runnable
 				e.printStackTrace();
 			}
 
+		}
+
+			
 		
 		
 	}
